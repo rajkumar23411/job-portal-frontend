@@ -108,7 +108,6 @@ const Profile = () => {
         }));
     };
     const toggleGenderSelect = (val) => {
-        console.log(val);
         setFormData((prev) => ({
             ...prev,
             gender: val,
@@ -178,7 +177,7 @@ const Profile = () => {
                                 (Recommended)
                             </span>
                         </Label>
-                        <div {...getRootProps()} className="">
+                        <div {...getRootProps()}>
                             <input
                                 {...getInputProps()}
                                 className="cursor-pointer w-max"
@@ -277,14 +276,11 @@ const Profile = () => {
                         <div className="flex flex-col gap-2 ">
                             <Label className="shad-form_label">Gender</Label>
                             <div className="flex items-center gap-4">
-                                {["male", "female", "other"].map((gen) => (
+                                {["Male", "Female", "Other"].map((gen) => (
                                     <Gender
                                         key={gen}
                                         value={gen}
-                                        isSelected={
-                                            formData.gender ===
-                                            gen.toLowerCase()
-                                        }
+                                        isSelected={formData.gender === gen}
                                         handleGenderSelect={() =>
                                             toggleGenderSelect(gen)
                                         }

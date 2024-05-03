@@ -23,7 +23,7 @@ export const languages = [
 
 export const navlinks = [
     { name: "Home", path: "/" },
-    { name: "My profile", path: "/profile" },
+    { name: "My profile", path: "/profile/view" },
     { name: "My bookmarks", path: "/bookmarks" },
     { name: "My applications", path: "/applications" },
     { name: "My Resume", path: "/resume" },

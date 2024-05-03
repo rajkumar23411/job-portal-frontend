@@ -21,6 +21,9 @@ import {
     UPDATE_EMAIL_SUCCESS,
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
+    UPLOAD_RESUME_FAIL,
+    UPLOAD_RESUME_REQUEST,
+    UPLOAD_RESUME_SUCCESS,
     VERIFY_ACCOUNT_FAIL,
     VERIFY_ACCOUNT_REQUEST,
     VERIFY_ACCOUNT_SUCCESS,
@@ -130,7 +133,8 @@ export const accountReducer = (state = {}, action) => {
         }
         case UPDATE_PROFILE_REQUEST:
         case UPDATE_EMAIL_REQUEST:
-        case EDIT_PREFERENCE_REQUEST: {
+        case EDIT_PREFERENCE_REQUEST:
+        case UPLOAD_RESUME_REQUEST: {
             return {
                 ...state,
                 loading: true,
@@ -138,7 +142,8 @@ export const accountReducer = (state = {}, action) => {
         }
         case UPDATE_PROFILE_SUCCESS:
         case UPDATE_EMAIL_SUCCESS:
-        case EDIT_PREFERENCE_SUCCESS: {
+        case EDIT_PREFERENCE_SUCCESS:
+        case UPLOAD_RESUME_SUCCESS: {
             return {
                 ...state,
                 loading: false,
@@ -148,7 +153,8 @@ export const accountReducer = (state = {}, action) => {
         }
         case UPDATE_PROFILE_FAIL:
         case UPDATE_EMAIL_FAIL:
-        case EDIT_PREFERENCE_FAIL: {
+        case EDIT_PREFERENCE_FAIL:
+        case UPLOAD_RESUME_FAIL: {
             return {
                 ...state,
                 loading: false,

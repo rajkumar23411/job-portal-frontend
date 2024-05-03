@@ -21,6 +21,9 @@ import {
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
+    UPLOAD_RESUME_FAIL,
+    UPLOAD_RESUME_REQUEST,
+    UPLOAD_RESUME_SUCCESS,
     VERIFY_ACCOUNT_FAIL,
     VERIFY_ACCOUNT_REQUEST,
     VERIFY_ACCOUNT_SUCCESS,
@@ -123,7 +126,7 @@ export const updateProfile = (formData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_PROFILE_FAIL,
-            payload: error.response.data.error,
+            payload: error.response.data.message,
         });
     }
 };
@@ -157,7 +160,29 @@ export const updatePreference = (formData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: EDIT_PREFERENCE_FAIL,
-            payload: error.response.data.error,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+export const uploadResume = (formData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPLOAD_RESUME_REQUEST });
+        const { data } = await axios.post(
+            `${baseUrl}/upload/resume`,
+            { file: formData },
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                withCredentials: true,
+            }
+        );
+        dispatch({ type: UPLOAD_RESUME_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: UPLOAD_RESUME_FAIL,
+            payload: error.response.data.message,
         });
     }
 };

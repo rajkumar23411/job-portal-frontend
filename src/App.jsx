@@ -14,6 +14,7 @@ import { clearError } from "./redux/actions/error.action";
 import UpdateEmail from "./page/UpdateEmail";
 import ProtectedRoute from "./layouts/_auth/ProtectedRoute";
 import MyPreferences from "./page/MyPreferences";
+import ProfileView from "./page/ProfileView";
 
 function App() {
     const { error } = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ function App() {
                 <Route element={<RootLayout />}>
                     <Route element={<ProtectedRoute />}>
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile/view" element={<ProfileView />} />
                         <Route path="/update-email" element={<UpdateEmail />} />
                         <Route
                             path="/my/preferences"
