@@ -1,11 +1,17 @@
 import axios from "axios";
 import {
+    DELETE_RESUME_FAIL,
+    DELETE_RESUME_REQUEST,
+    DELETE_RESUME_SUCCESS,
     EDIT_PREFERENCE_FAIL,
     EDIT_PREFERENCE_REQUEST,
     EDIT_PREFERENCE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
+    LOGOUT_FAIL,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
     RESEND_VERIFICATION_CODE_FAIL,
     RESEND_VERIFICATION_CODE_REQUEST,
     RESEND_VERIFICATION_CODE_SUCCESS,
@@ -28,13 +34,13 @@ import {
     VERIFY_ACCOUNT_REQUEST,
     VERIFY_ACCOUNT_SUCCESS,
 } from "../constants/user.constants";
-import { baseUrl, config } from "@/utils";
+import { userBaseURL, config } from "@/utils";
 
 export const signUp = (formData) => async (dispatch) => {
     try {
         dispatch({ type: SIGN_UP_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/register`,
+            `${userBaseURL}/register`,
             formData,
             config
         );
@@ -51,7 +57,11 @@ export const signIn = (formData) => async (dispatch) => {
     try {
         dispatch({ type: SIGN_IN_USER_REQUEST });
 
-        const { data } = await axios.post(`${baseUrl}/login`, formData, config);
+        const { data } = await axios.post(
+            `${userBaseURL}/login`,
+            formData,
+            config
+        );
 
         dispatch({ type: SIGN_IN_USER_SUCCESS, payload: data });
     } catch (error) {
@@ -66,7 +76,7 @@ export const verifyAccount = (formData) => async (dispatch) => {
     try {
         dispatch({ type: VERIFY_ACCOUNT_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/verify-account`,
+            `${userBaseURL}/verify-account`,
             formData,
             config
         );
@@ -83,7 +93,7 @@ export const resendCode = (email) => async (dispatch) => {
     try {
         dispatch({ type: RESEND_VERIFICATION_CODE_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/resend-code`,
+            `${userBaseURL}/resend-code`,
             { email },
             config
         );
@@ -99,7 +109,7 @@ export const resendCode = (email) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
-        const { data } = await axios.get(`${baseUrl}/me`, config);
+        const { data } = await axios.get(`${userBaseURL}/me`, config);
         dispatch({ type: LOAD_USER_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
@@ -113,7 +123,7 @@ export const updateProfile = (formData) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_PROFILE_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/profile-update`,
+            `${userBaseURL}/profile-update`,
             formData,
             {
                 headers: {
@@ -135,7 +145,7 @@ export const updateEmail = (formData) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_EMAIL_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/update-email`,
+            `${userBaseURL}/update-email`,
             formData,
             config
         );
@@ -152,7 +162,7 @@ export const updatePreference = (formData) => async (dispatch) => {
     try {
         dispatch({ type: EDIT_PREFERENCE_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/my/preferences`,
+            `${userBaseURL}/my/preferences`,
             formData,
             config
         );
@@ -169,7 +179,7 @@ export const uploadResume = (formData) => async (dispatch) => {
     try {
         dispatch({ type: UPLOAD_RESUME_REQUEST });
         const { data } = await axios.post(
-            `${baseUrl}/upload/resume`,
+            `${userBaseURL}/upload/resume`,
             { file: formData },
             {
                 headers: {
@@ -180,8 +190,36 @@ export const uploadResume = (formData) => async (dispatch) => {
         );
         dispatch({ type: UPLOAD_RESUME_SUCCESS, payload: data });
     } catch (error) {
+        console.log(error.response.data.originalError);
         dispatch({
             type: UPLOAD_RESUME_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+export const deleteResume = () => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_RESUME_REQUEST });
+        const { data } = await axios.delete(`${userBaseURL}/resume`, config);
+        dispatch({ type: DELETE_RESUME_SUCCESS, payload: data });
+    } catch (error) {
+        console.log(error.response.data.originalError);
+        dispatch({
+            type: DELETE_RESUME_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+export const logout = () => async (dispatch) => {
+    try {
+        dispatch({ type: LOGOUT_REQUEST });
+        const { data } = await axios.get(`${userBaseURL}/logout`, config);
+        dispatch({ type: LOGOUT_SUCCESS, payload: data });
+    } catch (error) {
+        dispatch({
+            type: LOGOUT_FAIL,
             payload: error.response.data.message,
         });
     }

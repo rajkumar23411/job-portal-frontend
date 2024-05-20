@@ -1,7 +1,7 @@
 import FormError from "@/components/shared/FormError";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
-import { signUpSchema } from "@/lib/validation/SignUpValidation";
+import { signUpSchema } from "@/lib/validation/user/SignUpValidation";
 import { signUp } from "@/redux/actions/user.action";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearError } from "@/redux/actions/error.action";
 import { RESET_USER } from "@/redux/constants/user.constants";
+
 const initialValues = {
     name: "",
     email: "",
@@ -42,7 +43,7 @@ const SignUp = () => {
         }
     }, [error, success, navigate, dispatch]);
     return (
-        <div>
+        <div className="h-full w-full flex-center">
             <div className="sm:w-420 flex-center flex-col">
                 <img src="/assets/images/logo.svg" alt="logo" />
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">

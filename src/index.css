@@ -100,6 +100,9 @@
     .h2-bold {
         @apply text-[30px] font-bold leading-[140%] tracking-tighter;
     }
+    .h2-semibold {
+        @apply text-[30px] font-semibold leading-[140%] tracking-tighter;
+    }
     .h2-medium {
         @apply text-[30px] font-medium leading-[140%] tracking-tighter;
     }
@@ -107,7 +110,9 @@
     .h3-medium {
         @apply text-[24px] font-medium leading-[140%] tracking-tighter;
     }
-
+    .h4-medium {
+        @apply text-[20px] font-medium leading-[140%] tracking-tighter;
+    }
     .h3-bold {
         @apply text-[24px] font-bold leading-[140%] tracking-tighter;
     }
@@ -149,7 +154,10 @@
     }
 
     .tiny-medium {
-        @apply text-[10px] font-medium leading-[140%];
+        @apply text-[12px] font-medium leading-[140%];
+    }
+    .tiny-regular {
+        @apply text-[12px] font-normal leading-[140%];
     }
 
     /* UTILITIES */
@@ -167,6 +175,16 @@
 
     .flex-start {
         @apply flex justify-start items-center;
+    }
+
+    .remove-arrow::-webkit-inner-spin-button,
+    .remove-arrow::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .remove-arrow {
+        -moz-appearance: textfield;
     }
 
     .custom-scrollbar::-webkit-scrollbar {
@@ -212,17 +230,15 @@
     .shad-form_label {
         @apply text-white text-sm font-medium;
     }
-
+    .shad-form-container {
+        @apply flex flex-col gap-1;
+    }
     .shad-form_message {
         @apply text-red-500 text-sm;
     }
 
     .shad-input {
         @apply h-12 w-full bg-dark-4 border-none pl-2 rounded-md placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
-    }
-
-    .shad-select {
-        @apply h-12 bg-dark-4 border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
     }
     .shad_select-group {
         @apply bg-dark-4 border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
@@ -231,16 +247,22 @@
         @apply text-white !important;
     }
     .shad-textarea {
-        @apply h-36 bg-dark-3 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
+        @apply h-28 p-2 bg-dark-4 rounded-xl border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 resize-none overflow-x-auto custom-scrollbar !important;
     }
 
     /* Button */
     .shad-button_primary {
-        @apply bg-primary-500 hover:bg-primary-600 text-light-1 flex gap-2 w-full h-12 !important;
+        @apply bg-primary-500 hover:bg-primary-600 text-light-1 flex gap-2 h-12 !important;
     }
 
     .shad-button_primary-outlined {
-        @apply bg-transparent border border-primary-500 hover:border-primary-600 text-primary-500 hover:text-primary-600 flex gap-2 w-full h-12 !important;
+        @apply bg-transparent border border-primary-500/80 hover:border-primary-600 text-primary-500 hover:text-primary-600 flex gap-2 w-full h-12 !important;
+    }
+    .shad-button_danger-outlined {
+        @apply bg-transparent border border-red-500/80 hover:border-red-600 text-red-500 hover:text-red-600 flex gap-2 h-12 !important;
+    }
+    .shad-button_primary-disabled {
+        @apply bg-primary-500/30 text-light-2 flex gap-2 w-full h-12 cursor-not-allowed !important;
     }
 
     .shad-button_dark_4 {

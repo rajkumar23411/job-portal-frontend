@@ -2,13 +2,37 @@ import { manageAccount, navlinks } from "@/utils";
 import Logo from "./Logo";
 import { IoMdNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { logout } from "@/redux/actions/user.action";
+import { toast } from "react-toastify";
+import { RESET_USER } from "@/redux/constants/user.constants";
+import { clearError } from "@/redux/actions/error.action";
 const Navbar = () => {
-    const { user } = useSelector((state) => state.auth);
+    const { user, success, error, message } = useSelector(
+        (state) => state.auth
+    );
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showDropDown, setShowDropDown] = useState(false);
     const [showNestedDropDown, setShowNestedDropDown] = useState(false);
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
+    useEffect(() => {
+        if (success) {
+            toast.success(message);
+            navigate("/");
+            dispatch({ type: RESET_USER });
+        }
+        if (error) {
+            toast.error(error);
+            dispatch(clearError());
+        }
+    }, [success, error, message, dispatch, navigate]);
 
     return (
         <nav className="w-full py-4 px-20 bg-dark-4 flex items-center justify-between">
@@ -109,6 +133,12 @@ const Navbar = () => {
                                                 {link.name}
                                             </Link>
                                         ))}
+                                        <li
+                                            onClick={handleLogout}
+                                            className="w-full pl-9 py-2 flex items-center justify-between capitalize hover:bg-red-500 cursor-pointer"
+                                        >
+                                            Logout
+                                        </li>
                                     </div>
                                 </div>
                             </div>

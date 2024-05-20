@@ -7,7 +7,7 @@ import {
 import { FaPhoneAlt } from "react-icons/fa";
 import { RiUserSearchFill } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiMiniLanguage } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { CiTrash } from "react-icons/ci";
@@ -16,9 +16,16 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { RESET_ACCOUNT } from "@/redux/constants/user.constants";
 import { clearError } from "@/redux/actions/error.action";
-import { loadUser, uploadResume } from "@/redux/actions/user.action";
+import {
+    deleteResume,
+    loadUser,
+    uploadResume,
+} from "@/redux/actions/user.action";
 import Loader from "@/components/shared/Loader";
 import { BsDownload } from "react-icons/bs";
+import { multiFormatDateString } from "@/utils";
+import UserResume, { getResumeExtension } from "@/components/shared/UserResume";
+import { getResumeIcon } from "@/utils/getResumeIcon";
 function InfoBox({ icon, value }) {
     return (
         <div className="flex items-center gap-2">
@@ -38,8 +45,12 @@ const ProfileView = () => {
     const { loading, success, error, message } = useSelector(
         (state) => state.account
     );
-    const [fileName, setFileName] = useState(null || user?.resume?.orgFileName);
+    const [downloading, setDownloading] = useState(false);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [fileName, setFileName] = useState(null || user?.resume?.orgFileName);
     const onDrop = useCallback(
         (acceptedFiles) => {
             const reader = new FileReader();
@@ -63,20 +74,36 @@ const ProfileView = () => {
     });
 
     const downloadResume = () => {
-        const anchorEl = document.createElement("a");
-        // anchorEl.href = user?.resume?.url;
-        anchorEl.download = user?.resume?.url;
-        anchorEl.click();
+        setDownloading(true);
+        const fileUrl = user?.resume?.url;
+        const fileName = user?.resume?.orgFileName;
+
+        fetch(fileUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", fileName);
+                document.body.appendChild(link);
+                link.click();
+            });
+        setDownloading(false);
+    };
+
+    const handleDeleteResumeClick = () => {
+        dispatch(deleteResume());
     };
 
     useEffect(() => {
         if (success) {
             toast.success(message);
             dispatch(loadUser());
+            navigate("/profile/view");
             dispatch({ type: RESET_ACCOUNT });
         }
         if (error) {
-            toast.error(message);
+            toast.error(error);
             dispatch(clearError());
         }
     }, [success, error, message, dispatch]);
@@ -113,7 +140,9 @@ const ProfileView = () => {
                             </div>
                             <p className="text-light-3 small-regular">
                                 Profile last updated -{" "}
-                                <span className=" text-light-2">Today</span>
+                                <span className=" text-light-2">
+                                    {multiFormatDateString(user?.updatedAt)}
+                                </span>
                             </p>
                         </div>
                         <div className="flex pt-6">
@@ -182,29 +211,48 @@ const ProfileView = () => {
                         <div className="flex flex-col gap-2">
                             {user?.resume?.url && (
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-6">
-                                        <span>{fileName}</span>
-                                        <Link
-                                            to={user?.resume?.url}
-                                            target="_blank"
-                                            className="text-primary-600 font-medium"
-                                        >
-                                            View
-                                        </Link>
+                                    <div className="flex items-center gap-2 bg-dark-3 p-2 w-60 rounded-md">
+                                        <div className="flex items-center justify-between w-full">
+                                            <div className="flex items-center gap-2">
+                                                {getResumeIcon(
+                                                    getResumeExtension(
+                                                        user?.resume
+                                                            ?.orgFileName
+                                                    )
+                                                )}
+                                                <div className="small-regular text-light-2">
+                                                    {user?.resume?.orgFileName}
+                                                </div>
+                                            </div>
+                                            <Link
+                                                to={user?.resume?.url}
+                                                target="_blank"
+                                                className="small-medium text-primary-500 hover:text-primary-600 cursor-pointer"
+                                            >
+                                                View
+                                            </Link>
+                                        </div>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <button
+                                            disabled={downloading}
                                             title="Download resume"
                                             onClick={downloadResume}
                                             className="h-8 w-8 flex-center text-lg text-primary-600 bg-light-3/10 rounded-full ml-auto cursor-pointer hover:bg-light-3/20"
                                         >
-                                            <BsDownload />
+                                            {downloading ? (
+                                                <Loader />
+                                            ) : (
+                                                <BsDownload />
+                                            )}
                                         </button>
                                         <button
+                                            disabled={loading}
                                             title="Delete"
                                             className="h-8 w-8 flex-center text-lg text-primary-600 bg-light-3/10 rounded-full ml-auto cursor-pointer hover:bg-light-3/20"
+                                            onClick={handleDeleteResumeClick}
                                         >
-                                            <CiTrash />
+                                            {loading ? <Loader /> : <CiTrash />}
                                         </button>
                                     </div>
                                 </div>
@@ -224,7 +272,7 @@ const ProfileView = () => {
                                             className="flex items-center gap-2"
                                         >
                                             <Loader />
-                                            Uploading..
+                                            Uploading...
                                         </Button>
                                     ) : (
                                         <Button className="border border-light-3 text-light-3 px-4 py-3 bg-transparent">
@@ -241,9 +289,25 @@ const ProfileView = () => {
                                         <p className="text-gray-200">
                                             Already have a resume?
                                         </p>
-                                        <button className="base-medium text-primary-600">
-                                            Upload resume
-                                        </button>
+                                        <div {...getRootProps()}>
+                                            <input
+                                                {...getInputProps()}
+                                                className="cursor-pointer w-max"
+                                            />
+                                            <button
+                                                disabled={loading}
+                                                className="base-medium text-primary-600"
+                                            >
+                                                {loading ? (
+                                                    <div className="flex items-center gap-2">
+                                                        <Loader />
+                                                        Uploading...
+                                                    </div>
+                                                ) : (
+                                                    "Upload resume"
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
                                     <p className="base-regular text-light-3">
                                         Supported formats: .pdf, .doc, .docx, up

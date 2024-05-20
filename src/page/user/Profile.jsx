@@ -187,7 +187,7 @@ const Profile = () => {
                                     <img
                                         src={
                                             image ||
-                                            user.avatar.url ||
+                                            user?.avatar?.url ||
                                             "https://placehold.co/150x150"
                                         }
                                         alt="pizza"

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { newEmailSchema } from "@/lib/validation/NewEmailValidation";
+import { newEmailSchema } from "@/lib/validation/user/NewEmailValidation";
 import FormError from "@/components/shared/FormError";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";

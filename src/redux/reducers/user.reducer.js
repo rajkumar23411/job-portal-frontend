@@ -1,10 +1,16 @@
 import {
+    DELETE_RESUME_FAIL,
+    DELETE_RESUME_REQUEST,
+    DELETE_RESUME_SUCCESS,
     EDIT_PREFERENCE_FAIL,
     EDIT_PREFERENCE_REQUEST,
     EDIT_PREFERENCE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
+    LOGOUT_FAIL,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
     RESEND_VERIFICATION_CODE_FAIL,
     RESEND_VERIFICATION_CODE_REQUEST,
     RESEND_VERIFICATION_CODE_SUCCESS,
@@ -35,7 +41,8 @@ export const userReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case SIGN_UP_REQUEST:
         case SIGN_IN_USER_REQUEST:
-        case LOAD_USER_REQUEST: {
+        case LOAD_USER_REQUEST:
+        case LOGOUT_REQUEST: {
             return {
                 ...state,
                 loading: true,
@@ -65,7 +72,22 @@ export const userReducer = (state = { user: {} }, action) => {
                 success: false,
             };
         }
-
+        case LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                success: true,
+                isAuthenticated: false,
+                message: action.payload.message,
+            };
+        }
+        case LOGOUT_FAIL: {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        }
         case CLEAR_ERRORS: {
             return {
                 ...state,
@@ -134,7 +156,8 @@ export const accountReducer = (state = {}, action) => {
         case UPDATE_PROFILE_REQUEST:
         case UPDATE_EMAIL_REQUEST:
         case EDIT_PREFERENCE_REQUEST:
-        case UPLOAD_RESUME_REQUEST: {
+        case UPLOAD_RESUME_REQUEST:
+        case DELETE_RESUME_REQUEST: {
             return {
                 ...state,
                 loading: true,
@@ -143,7 +166,8 @@ export const accountReducer = (state = {}, action) => {
         case UPDATE_PROFILE_SUCCESS:
         case UPDATE_EMAIL_SUCCESS:
         case EDIT_PREFERENCE_SUCCESS:
-        case UPLOAD_RESUME_SUCCESS: {
+        case UPLOAD_RESUME_SUCCESS:
+        case DELETE_RESUME_SUCCESS: {
             return {
                 ...state,
                 loading: false,
@@ -154,7 +178,8 @@ export const accountReducer = (state = {}, action) => {
         case UPDATE_PROFILE_FAIL:
         case UPDATE_EMAIL_FAIL:
         case EDIT_PREFERENCE_FAIL:
-        case UPLOAD_RESUME_FAIL: {
+        case UPLOAD_RESUME_FAIL:
+        case DELETE_RESUME_FAIL: {
             return {
                 ...state,
                 loading: false,

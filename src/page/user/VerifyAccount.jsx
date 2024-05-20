@@ -1,6 +1,6 @@
 import FormError from "@/components/shared/FormError";
 import { Button } from "@/components/ui/button";
-import { accountSchema } from "@/lib/validation/AccountValidation";
+import { accountSchema } from "@/lib/validation/user/AccountValidation";
 import { clearError } from "@/redux/actions/error.action";
 import { resendCode, verifyAccount } from "@/redux/actions/user.action";
 import { RESET_ACCOUNT } from "@/redux/constants/user.constants";
