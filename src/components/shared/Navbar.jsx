@@ -39,8 +39,8 @@ const Navbar = () => {
             <Logo />
             <div>
                 <ul className="flex-center gap-10">
-                    <li>Home</li>
-                    <li>Jobs</li>
+                    <Link to="/">Home</Link>
+                    <Link to="/job/all">Job</Link>
                     <li>
                         <IoMdNotificationsOutline
                             className="text-2xl"
@@ -56,9 +56,10 @@ const Navbar = () => {
                     <li
                         id="dropDownMenuBtn"
                         className="relative"
-                        onClick={() => setShowDropDown(!showDropDown)}
+                        onMouseEnter={() => setShowDropDown(true)}
+                        onMouseLeave={() => setShowDropDown(false)}
                     >
-                        <div className="flex-center gap-1">
+                        <div className="flex-center gap-1 hover:bg-light-3/10 p-2 rounded-lg">
                             <img
                                 src={
                                     user?.avatar?.url ||
@@ -76,7 +77,7 @@ const Navbar = () => {
 
                         <div
                             id="dropDownMenu"
-                            className={`w-64 h-max bg-dark-3 shadow-md shadow-dark-1 rounded absolute top-12 right-0 transform origin-top-right transition-all duration-150 ease-in-out ${
+                            className={`w-64 h-max bg-dark-3 shadow-md shadow-dark-1 rounded absolute top-12 right-0 z-40 transform origin-top-right transition-all duration-150 ease-in-out ${
                                 showDropDown ? "scale-100" : "scale-0"
                             }`}
                         >
@@ -91,7 +92,7 @@ const Navbar = () => {
                                     <Link
                                         to={link.path}
                                         key={link.name}
-                                        className="w-full px-6 py-2 flex items-center justify-between capitalize hover:bg-primary-500"
+                                        className="w-full px-6 py-2 flex items-center justify-between capitalize hover:bg-primary-600"
                                     >
                                         <li>{link.name}</li>
                                     </Link>
@@ -128,7 +129,7 @@ const Navbar = () => {
                                             <Link
                                                 to={link.path}
                                                 key={link.name}
-                                                className="w-full pl-9 py-2 flex items-center justify-between capitalize hover:bg-primary-500"
+                                                className="w-full pl-9 py-2 flex items-center justify-between capitalize hover:bg-primary-600"
                                             >
                                                 {link.name}
                                             </Link>

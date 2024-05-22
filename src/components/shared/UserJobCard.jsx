@@ -1,22 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { JobInfoBox } from "@/layouts/_comapny/JobCard";
 import { multiFormatDateString } from "@/utils";
-import { IoTimeOutline } from "react-icons/io5";
+import { IoLocationOutline, IoTimeOutline } from "react-icons/io5";
 import { MdOutlineNotStarted } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { handleBookmarkRequest } from "@/redux/actions/bookmark.action";
 import getJobIcon from "@/utils/getJobIcon.jsx";
 import { Link } from "react-router-dom";
+import JobInfoBox from "./JobInfoBox";
 
-const UserJobCard = ({ job, isJobExisitsInBookmark }) => {
+const UserJobCard = ({ job, isJobExisitsInBookmark, isAlreadyApplied }) => {
     const dispatch = useDispatch();
 
     return (
-        <div key={job._id} className="w-full bg-dark-4 rounded-lg p-4">
+        <div key={job._id} className="w-full bg-dark-3 rounded-lg p-4">
             <div className="pb-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="h3-medium text-light-1">{job?.title}</h1>
+                        <h1 className="h4-medium text-light-1">{job?.title}</h1>
                         <h2 className="base-semibold text-light-3">
                             {job?.company?.name}
                         </h2>
@@ -30,11 +30,19 @@ const UserJobCard = ({ job, isJobExisitsInBookmark }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center gap-2 py-4">
-                {getJobIcon(job?.workMode)}
-                <p className="small-regular text-gray-300 capitalize">
-                    {job?.workMode}
-                </p>
+            <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2 py-4">
+                    {getJobIcon(job?.workMode)}
+                    <p className="small-regular text-gray-300 capitalize">
+                        {job?.workMode}
+                    </p>
+                </div>
+                <div className="flex items-center gap-2 py-4">
+                    <IoLocationOutline className="text-xl text-light-3" />
+                    <p className="small-regular text-gray-300 capitalize">
+                        {job?.locations?.map((loc) => loc).join(", ")}
+                    </p>
+                </div>
             </div>
             <div className="py-4">
                 <div className="flex items-center gap-x-14">
@@ -98,9 +106,15 @@ const UserJobCard = ({ job, isJobExisitsInBookmark }) => {
                     >
                         View details
                     </Link>
-                    <Button className="bg-primary-500 small-medium hover:bg-primary-600">
-                        Apply now
-                    </Button>
+                    {isAlreadyApplied(job?._id) ? (
+                        <Button className="shad-button_primary-disabled">
+                            Already applied
+                        </Button>
+                    ) : (
+                        <Button className="bg-primary-500 small-medium hover:bg-primary-600">
+                            Apply now
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>

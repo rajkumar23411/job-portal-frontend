@@ -1,7 +1,8 @@
 export const userBaseURL = "http://localhost:6767/api/v1/user";
 export const comapnyBaseURL = "http://localhost:6767/api/v1/company";
 export const jobBaseURL = "http://localhost:6767/api/v1/job";
-
+export const applicationBaseURL = "http://localhost:6767/api/v1/application";
+export const questionBaseURL = "http://localhost:6767/api/v1/question";
 export const config = {
     headers: {
         "Access-Control-Allow-Origin": "*",
@@ -27,7 +28,7 @@ export const navlinks = [
     { name: "Home", path: "/" },
     { name: "My profile", path: "/profile/view" },
     { name: "My bookmarks", path: "/my/bookmarks" },
-    { name: "My applications", path: "/applications" },
+    { name: "My applications", path: "/my/applications" },
     { name: "My Resume", path: "/resume" },
     { name: "My Preferences", path: "/my/preferences" },
 ];

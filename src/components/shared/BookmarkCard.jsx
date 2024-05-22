@@ -1,4 +1,3 @@
-import { JobInfoBox } from "@/layouts/_comapny/JobCard";
 import { multiFormatDateString } from "@/utils";
 import getJobIcon from "@/utils/getJobIcon.jsx";
 import { IoTimeOutline } from "react-icons/io5";
@@ -7,11 +6,12 @@ import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { handleBookmarkRequest } from "@/redux/actions/bookmark.action";
 import { Link } from "react-router-dom";
+import JobInfoBox from "./JobInfoBox";
 
 const BookmarkCard = ({ job }) => {
     const dispatch = useDispatch();
     return (
-        <div key={job._id} className="w-full bg-dark-4 rounded-lg p-4">
+        <div key={job._id} className="w-full bg-dark-3 rounded-lg p-4">
             <div className="pb-4">
                 <div className="flex items-center justify-between">
                     <div>

@@ -5,6 +5,9 @@ import {
     GET_ALL_JOBS_FAIL,
     GET_ALL_JOBS_REQUEST,
     GET_ALL_JOBS_SUCCESS,
+    GET_JOB_AS_PER_PREFERENCE_FAIL,
+    GET_JOB_AS_PER_PREFERENCE_REQUEST,
+    GET_JOB_AS_PER_PREFERENCE_SUCCESS,
     GET_JOB_DETAILS_FAIL,
     GET_JOB_DETAILS_REQUEST,
     GET_JOB_DETAILS_SUCCESS,
@@ -15,16 +18,19 @@ export const jobsReducer = (state = {}, action) => {
     switch (action.type) {
         case GET_ALL_JOBS_REQUEST:
         case GET_JOB_DETAILS_REQUEST:
-        case APPLY_JOB_REQUEST: {
+        case APPLY_JOB_REQUEST:
+        case GET_JOB_AS_PER_PREFERENCE_REQUEST: {
             return {
                 ...state,
                 loading: true,
             };
         }
-        case GET_ALL_JOBS_SUCCESS: {
+        case GET_ALL_JOBS_SUCCESS:
+        case GET_JOB_AS_PER_PREFERENCE_SUCCESS: {
             return {
                 ...state,
                 loading: false,
+                success: action.payload.success,
                 jobs: action.payload.jobs,
             };
         }
@@ -46,7 +52,8 @@ export const jobsReducer = (state = {}, action) => {
         }
         case GET_ALL_JOBS_FAIL:
         case GET_JOB_DETAILS_FAIL:
-        case APPLY_JOB_FAIL: {
+        case APPLY_JOB_FAIL:
+        case GET_JOB_AS_PER_PREFERENCE_FAIL: {
             return {
                 ...state,
                 loading: false,

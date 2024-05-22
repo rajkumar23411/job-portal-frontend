@@ -5,6 +5,8 @@ import { accountReducer, userReducer } from "./reducers/user.reducer";
 import { companyReducer } from "./reducers/company.reducers";
 import { jobsReducer } from "./reducers/job.reducer";
 import { bookmarkReducer } from "./reducers/bookmark.reducers";
+import { applicationReducer } from "./reducers/application.reducers";
+import { questionReducer } from "./reducers/question.reducers";
 
 const reducers = combineReducers({
     auth: userReducer,
@@ -12,6 +14,8 @@ const reducers = combineReducers({
     company: companyReducer,
     jobs: jobsReducer,
     bookmark: bookmarkReducer,
+    application: applicationReducer,
+    question: questionReducer,
 });
 
 const initialStore = {};

@@ -1,4 +1,4 @@
-import { career_fields } from "@/utils";
+import { profile } from "@/utils";
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { RxCross1 } from "react-icons/rx";
@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import { RESET_ACCOUNT } from "@/redux/constants/user.constants";
 import { clearError } from "@/redux/actions/error.action";
 import Loader from "@/components/shared/Loader";
+import { useNavigate } from "react-router-dom";
+
 function Fields({ value, isSelected = false, handleSelect, handleRemove }) {
     return (
         <div
             onClick={!isSelected ? () => handleSelect(value) : null}
-            className={`px-6 py-2 flex-center gap-3 rounded-2xl  cursor-pointer ${
+            className={`px-6 py-2 flex-center gap-3 rounded-2xl  cursor-pointer capitalize ${
                 isSelected ? "bg-primary-600" : "border border-primary-600/80"
             }`}
         >
@@ -36,7 +38,9 @@ const MyPreferences = () => {
         (state) => state.account
     );
     const { user } = useSelector((state) => state.auth);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [jobPreferences, setJobPreferences] = useState(
         user?.careerPreference || []
@@ -72,14 +76,14 @@ const MyPreferences = () => {
     useEffect(() => {
         if (success) {
             toast.success(message);
+            navigate("/my/preferences");
             dispatch({ type: RESET_ACCOUNT });
-            dispatch(loadUser());
         }
         if (error) {
             toast.error(error);
             dispatch(clearError());
         }
-    }, [success, error, message, dispatch]);
+    }, [success, error, message, dispatch, navigate]);
     return (
         <div className="flex items-center py-6 gap-6 w-full h-max flex-col">
             <h1 className="h2-bold">Your Preferences</h1>
@@ -100,7 +104,7 @@ const MyPreferences = () => {
                             />
                             {keyword.length > 0 && (
                                 <div className="w-full bg-dark-4 h-max p-6 flex flex-col gap-2 absolute top-14 left-0 right-0 rounded-md">
-                                    {career_fields
+                                    {profile
                                         .filter((c) =>
                                             c
                                                 .toLowerCase()
@@ -141,7 +145,7 @@ const MyPreferences = () => {
                             Popular career interests
                         </label>
                         <div className="flex flex-wrap gap-5">
-                            {career_fields
+                            {profile
                                 .slice(0, 26)
                                 .filter((c) =>
                                     jobPreferences.length > 0
@@ -165,7 +169,7 @@ const MyPreferences = () => {
                         Work Mode
                     </label>
                     <div className="flex flex-wrap gap-3">
-                        {["Remote", "Hybrid", "On-site"].map((mode) => (
+                        {["remote", "hybrid", "onsite"].map((mode) => (
                             <Fields
                                 key={mode}
                                 value={mode}

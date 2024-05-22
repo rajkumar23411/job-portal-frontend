@@ -1,14 +1,11 @@
-import { JobInfoBox } from "@/layouts/_comapny/JobCard";
 import { applyJob, getJobDetials } from "@/redux/actions/job.actions";
 import { multiFormatDateString } from "@/utils";
 import getJobIcon from "@/utils/getJobIcon";
 import { useEffect } from "react";
-import { FaArrowTrendUp } from "react-icons/fa6";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdOutlineMail, MdOutlineNotStarted } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { LiaEarlybirds } from "react-icons/lia";
 import { FiUsers } from "react-icons/fi";
 import { LuUserCheck } from "react-icons/lu";
 import { IoMdGlobe } from "react-icons/io";
@@ -39,6 +36,9 @@ import { Label } from "@/components/ui/label";
 import UserResume from "@/components/shared/UserResume";
 import { RESET_JOB_STATE } from "@/redux/constants/jobs.constants";
 import Loader from "@/components/shared/Loader";
+import ActiveHiringTag from "@/components/shared/ActiveHiringTag";
+import EarlyApplicantTag from "@/components/shared/EarlyApplicantTag";
+import JobInfoBox from "@/components/shared/JobInfoBox";
 const JobDetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -54,6 +54,7 @@ const JobDetails = () => {
     const { bookmarks, success, error, message } = useSelector(
         (state) => state.bookmark
     );
+    const { applications } = useSelector((state) => state.application);
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(window.location.href);
@@ -65,6 +66,10 @@ const JobDetails = () => {
     };
     const isJobExistsInBookmark = () =>
         bookmarks?.jobs?.some((b) => b._id === id);
+
+    const isAlreadyApplied = (job_id) => {
+        return applications?.some((app) => app?.job?._id.toString() === job_id);
+    };
 
     useEffect(() => {
         if (jobSuccess) {
@@ -102,18 +107,8 @@ const JobDetails = () => {
                 </h1>
                 <div className="w-full border border-light-3/30 rounded-lg p-6 flex flex-col gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2 tiny-regular border border-light-3 w-max rounded p-2">
-                            <FaArrowTrendUp className="text-primary-600" />
-                            <span className="text-gray-300">
-                                Actively hiring
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-2 tiny-regular border border-yellow-500/60 w-max rounded p-2">
-                            <LiaEarlybirds className="text-yellow-500 text-lg" />
-                            <span className="text-gray-300">
-                                Be an early applicant
-                            </span>
-                        </div>
+                        <ActiveHiringTag />
+                        <EarlyApplicantTag />
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -326,12 +321,19 @@ const JobDetails = () => {
                         </div>
                     </div>
                 </div>
+                {isAlreadyApplied(job?._id) && (
+                    <Button className="shad-button_primary-disabled">
+                        Already applied
+                    </Button>
+                )}
                 <Dialog>
-                    <DialogTrigger asChild>
-                        <Button className="shad-button_primary">
-                            Apply now
-                        </Button>
-                    </DialogTrigger>
+                    {!isAlreadyApplied(job?._id) && (
+                        <DialogTrigger asChild>
+                            <Button className="shad-button_primary">
+                                Apply now
+                            </Button>
+                        </DialogTrigger>
+                    )}
                     <DialogContent className="bg-dark-3 border-none sm:max-w-2xl p-0 rounded-lg overflow-hidden">
                         <DialogHeader className="bg-dark-4 p-6">
                             <DialogTitle className="h3-medium">
@@ -444,19 +446,19 @@ const JobDetails = () => {
                             </div>
                         </DialogDescription>
                         <DialogFooter className="sm:justify-center pb-6">
-                            <Button
-                                className="shad-button_primary w-max mx-auto px-10"
-                                onClick={dispatch(applyJob(job?._id))}
-                            >
-                                {loading ? (
-                                    <div className="flex gap-2">
-                                        <Loader />
-                                        Submitting...
-                                    </div>
-                                ) : (
-                                    "Submit application"
-                                )}
-                            </Button>
+                            {loading ? (
+                                <div className="flex items-center gap-2 shad-button_primary-disabled w-max mx-auto px-10">
+                                    <Loader />
+                                    Submitting....
+                                </div>
+                            ) : (
+                                <Button
+                                    className="shad-button_primary w-max mx-auto px-10"
+                                    onClick={() => dispatch(applyJob(job?._id))}
+                                >
+                                    Submit application
+                                </Button>
+                            )}
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>

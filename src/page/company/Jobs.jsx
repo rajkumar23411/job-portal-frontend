@@ -1,13 +1,12 @@
 import SearchBar from "@/components/shared/SearchBar";
 import { GoPlus } from "react-icons/go";
-import { MdOutlineMapsHomeWork, MdOutlineNotStarted } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import JobCard from "@/layouts/_comapny/JobCard";
+import JobCard from "@/components/shared/JobCard";
 import { useEffect } from "react";
 import { loadJobs } from "@/redux/actions/company.actions";
 import { RESET_COMPANY } from "@/redux/constants/company.constants";
-function Box({ heading, value = 0 }) {
+export function Box({ heading, value = 0 }) {
     return (
         <div className="w-60 h-36 bg-dark-4 rounded-xl flex justify-center flex-col p-6">
             <h4 className="base-medium text-light-3">{heading}</h4>
@@ -56,7 +55,7 @@ const Jobs = () => {
             <div className="pt-6">
                 <h1 className="h3-medium">Active jobs</h1>
 
-                <div className="grid grid-cols-2 gap-6 pt-6">
+                <div className="grid grid-cols-2 gap-3 pt-6 w-full">
                     {jobs?.map((job) => (
                         <JobCard job={job} key={job._id} />
                     ))}
