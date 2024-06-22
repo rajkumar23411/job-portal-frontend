@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+    GET_ALL_JOB_APPLICATIONS_FAIL,
+    GET_ALL_JOB_APPLICATIONS_REQUEST,
+    GET_ALL_JOB_APPLICATIONS_SUCCESS,
     GET_JOB_APPLICANTS_FAIL,
     GET_JOB_APPLICANTS_REQUEST,
     GET_JOB_APPLICANTS_SUCCESS,
@@ -61,3 +64,21 @@ export const updateApplicationStatus = (id, status) => async (dispatch) => {
         });
     }
 };
+
+export const loadAlljobApplications =
+    (status = "") =>
+    async (dispatch) => {
+        try {
+            dispatch({ type: GET_ALL_JOB_APPLICATIONS_REQUEST });
+            let url = `${applicationBaseURL}/all`;
+            if (status !== "" || status) url += `?status=${status}`;
+            const { data } = await axios.get(url, config);
+            dispatch({ type: GET_ALL_JOB_APPLICATIONS_SUCCESS, payload: data });
+        } catch (error) {
+            console.log(error.response.data.originalError);
+            dispatch({
+                type: GET_ALL_JOB_APPLICATIONS_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };

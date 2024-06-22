@@ -111,9 +111,12 @@ const UserJobCard = ({ job, isJobExisitsInBookmark, isAlreadyApplied }) => {
                             Already applied
                         </Button>
                     ) : (
-                        <Button className="bg-primary-500 small-medium hover:bg-primary-600">
+                        <Link
+                            to={`/job/${job?._id}`}
+                            className="px-4 py-2 rounded-lg bg-primary-500 small-medium hover:bg-primary-600"
+                        >
                             Apply now
-                        </Button>
+                        </Link>
                     )}
                 </div>
             </div>

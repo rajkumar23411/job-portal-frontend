@@ -79,6 +79,7 @@ export const applyJob = (id) => async (dispatch) => {
         );
         dispatch({ type: APPLY_JOB_SUCCESS, payload: data });
     } catch (error) {
+        console.log(error.response.data);
         dispatch({
             type: APPLY_JOB_FAIL,
             payload: error.response.data.message,

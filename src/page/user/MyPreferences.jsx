@@ -77,6 +77,7 @@ const MyPreferences = () => {
         if (success) {
             toast.success(message);
             navigate("/my/preferences");
+            dispatch(loadUser());
             dispatch({ type: RESET_ACCOUNT });
         }
         if (error) {

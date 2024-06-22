@@ -51,7 +51,7 @@ const JobCard = ({ job }) => {
                         View applications
                     </Link>
                     <Link
-                        to={`/job/${job?._id}`}
+                        to={`/company/job/${job?._id}`}
                         className=" bg-transparent small-medium text-primary-600 hover:bg-transparent"
                     >
                         View details

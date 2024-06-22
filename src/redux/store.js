@@ -7,6 +7,7 @@ import { jobsReducer } from "./reducers/job.reducer";
 import { bookmarkReducer } from "./reducers/bookmark.reducers";
 import { applicationReducer } from "./reducers/application.reducers";
 import { questionReducer } from "./reducers/question.reducers";
+import { examReducer } from "./reducers/exam.reducers";
 
 const reducers = combineReducers({
     auth: userReducer,
@@ -16,6 +17,7 @@ const reducers = combineReducers({
     bookmark: bookmarkReducer,
     application: applicationReducer,
     question: questionReducer,
+    exam: examReducer,
 });
 
 const initialStore = {};

@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearError } from "@/redux/actions/error.action";
 import { RESET_USER } from "@/redux/constants/user.constants";
+import Logo from "@/components/shared/Logo";
 
 const initialValues = {
     name: "",
@@ -45,7 +46,7 @@ const SignUp = () => {
     return (
         <div className="h-full w-full flex-center">
             <div className="sm:w-420 flex-center flex-col">
-                <img src="/assets/images/logo.svg" alt="logo" />
+                <Logo />
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
                     Create a new account
                 </h2>

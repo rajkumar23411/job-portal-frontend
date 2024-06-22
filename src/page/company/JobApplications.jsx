@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {
-    loadAlljobApplications,
+    loadJobApplicants,
     updateApplicationStatus,
 } from "@/redux/actions/application.action";
 import {
@@ -18,18 +18,18 @@ import { formatDateString, getStatusColor } from "@/utils";
 import { useEffect, useState } from "react";
 import { GrDocumentText } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const Applications = () => {
-    const dispatch = useDispatch();
-
-    const [status, setStatus] = useState("");
-    const [statusChanged, setStatusChanged] = useState(false);
-    const [applicationStatus, setApplicationStatus] = useState("");
-    const { success, error, applications } = useSelector(
+const JobApplications = () => {
+    const { success, error, message, applicants } = useSelector(
         (state) => state.application
     );
-    const { exams } = useSelector((state) => state.exam);
+    const dispatch = useDispatch();
+    const { id } = useParams();
+
+    const [applicationStatus, setApplicationStatus] = useState("");
+    const [statusChanged, setStatusChanged] = useState(false);
 
     const handleStatusChange = (id, value) => {
         setStatusChanged(true);
@@ -39,57 +39,45 @@ const Applications = () => {
 
     useEffect(() => {
         if (success) {
+            toast.success(message);
+            setStatusChanged(false);
             dispatch({ type: RESET_APPLICATION_STATE });
         }
         if (error) {
+            toast.error(error);
             dispatch({ type: RESET_APPLICATION_STATE_ERROR });
         }
-    }, [success, error, dispatch]);
+    }, [
+        applicationStatus,
+        statusChanged,
+        dispatch,
+        message,
+        error,
+        success,
+        id,
+    ]);
 
     useEffect(() => {
-        dispatch(loadAlljobApplications(status));
-    }, [dispatch, status]);
+        dispatch(loadJobApplicants(id));
+    }, [dispatch, id]);
     return (
-        <div className="h-max w-full">
-            <div className="flex items-center justify-between">
-                <h1 className="h3-medium text-light-2 flex gap-3">
-                    Candidate Applications
-                    {status !== "" ? (
-                        <div>
-                            <span>/</span> &nbsp;&nbsp;
-                            <span>Status: </span>
-                            <span>{status}</span>
-                        </div>
-                    ) : null}
+        <div className="w-full h-full gap-10">
+            <div className="flex items-center justify-between px-6">
+                <h1 className="h3-regular text-light-2">Applications</h1>
+                <h1 className="h3-regular text-light-2">
+                    Total applicants: {applicants?.length}
                 </h1>
-                <div>
-                    <form>
-                        <select
-                            className="shad-input w-48 text-light-2 px-3"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
-                        >
-                            <option defaultValue="" className="text-light-3">
-                                Select status
-                            </option>
-                            <option value="">All</option>
-                            <option value="applied">Applied</option>
-                            <option value="shortlist">Shortlist</option>
-                            <option value="reject">Reject</option>
-                            <option value="hire">Hired</option>
-                        </select>
-                    </form>
-                </div>
             </div>
+
             <div className="w-full h-full pt-6">
-                {applications?.length <= 0 ? (
-                    <div className="flex-center h-full flex-col gap-6 py-20">
+                {applicants?.length <= 0 ? (
+                    <div className="flex-center h-full flex-col gap-6">
                         <div className=" text-light-2 h3-medium">
-                            No applicants found with status{" "}
-                            <span className="text-light-3 italic">
-                                {status}
-                            </span>
+                            No applicants to this job yet
                         </div>
+                        <Link className="shad-button_primary flex-center px-6 rounded-lg base-medium">
+                            View job
+                        </Link>
                     </div>
                 ) : (
                     <Table className="w-[95%] rounded-xl mx-auto overflow-hidden mt-10">
@@ -99,11 +87,12 @@ const Applications = () => {
                                     "Job profile",
                                     "Name",
                                     "email",
+                                    "contact",
                                     "Applied on",
+                                    "Profile",
                                     "Resume",
-                                    "Application status",
+                                    "Status",
                                     "Update status",
-                                    "Exam status",
                                 ].map((head) => (
                                     <TableHead
                                         key={head}
@@ -115,14 +104,7 @@ const Applications = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {applications?.map((app, indx) => {
-                                const examStatus =
-                                    exams?.find(
-                                        (exam) =>
-                                            exam.job?._id === app?.job?._id
-                                    )?.status || "N/A";
-                                const color = getStatusColor(examStatus);
-                                console.log(color);
+                            {applicants?.map((app, indx) => {
                                 return (
                                     <TableRow
                                         key={indx}
@@ -136,9 +118,20 @@ const Applications = () => {
                                             {app?.user?.email}
                                         </TableCell>
                                         <TableCell>
+                                            {app?.user?.contact}
+                                        </TableCell>
+                                        <TableCell>
                                             {formatDateString(
                                                 app?.appliedAt
                                             ).substring(0, 12)}
+                                        </TableCell>
+                                        <TableCell className="text-blue-500 hover:text-blue-600 small-medium">
+                                            <Link
+                                                to={app?.user?.resume?.url}
+                                                target="_blank"
+                                            >
+                                                Profile
+                                            </Link>
                                         </TableCell>
                                         <TableCell className="text-blue-500 hover:text-blue-600 small-medium">
                                             <Link
@@ -209,11 +202,6 @@ const Applications = () => {
                                                 )}
                                             </select>
                                         </TableCell>
-                                        <TableCell
-                                            className={`${color} small-medium capitalize`}
-                                        >
-                                            {examStatus}
-                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -225,4 +213,4 @@ const Applications = () => {
     );
 };
 
-export default Applications;
+export default JobApplications;

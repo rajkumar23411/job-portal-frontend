@@ -1,5 +1,6 @@
 import FormError from "@/components/shared/FormError";
 import Loader from "@/components/shared/Loader";
+import Logo from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
 import { RegistrationSchema } from "@/lib/validation/company/RegistrationValidation";
 import { registerCompany } from "@/redux/actions/company.actions";
@@ -93,7 +94,7 @@ const Register = () => {
     return (
         <div className="h-max py-20 w-full flex-center">
             <div className="sm:w-500 w-full h-full flex-center flex-col">
-                <img src="/assets/images/logo.svg" alt="logo" />
+                <Logo />
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
                     Register Your Organization
                 </h2>

@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { loginSchema } from "@/lib/validation/company/LoginValidation";
 import { loginCompany } from "@/redux/actions/company.actions";
 import { RESET_COMPANY } from "@/redux/constants/company.constants";
+import Logo from "@/components/shared/Logo";
+import CustomCheckBox from "@/components/shared/CustomCheckBox";
 const Login = () => {
     const { loading, success, error, message } = useSelector(
         (state) => state.company
@@ -42,7 +44,7 @@ const Login = () => {
     return (
         <div className="h-full w-full flex-center">
             <div className="sm:w-500 flex-center flex-col">
-                <img src="/assets/images/logo.svg" alt="logo" />
+                <Logo />
                 <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
                     Sign in to your organization account
                 </h2>
@@ -101,16 +103,14 @@ const Login = () => {
                                 </div>
                                 <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center gap-x-2">
-                                        <input
-                                            id="rememberMe-checkbox"
-                                            type="checkbox"
-                                            checked={rememberMe}
+                                        <CustomCheckBox
                                             value={rememberMe}
+                                            checked={rememberMe}
                                             onChange={() =>
                                                 setRememberMe(!rememberMe)
                                             }
-                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                         />
+
                                         <label
                                             htmlFor="rememberMe-checkbox"
                                             className="small-medium text-gray-400 "

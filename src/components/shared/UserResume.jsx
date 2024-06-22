@@ -13,8 +13,8 @@ const UserResume = ({ resume }) => {
                 {getResumeIcon(getResumeExtension(resume?.orgFileName))}
                 <div>
                     <p>
-                        {resume?.orgFileName.length > 25
-                            ? resume?.orgFileName.slice(0, 25) + "..."
+                        {resume?.orgFileName?.length > 25
+                            ? resume?.orgFileName?.slice(0, 25) + "..."
                             : resume?.orgFileName}
                     </p>
                     <span className="tiny-medium text-light-3">108 KB</span>

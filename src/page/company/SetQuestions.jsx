@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SetQuestions = () => {
-    const [title, setTitle] = useState("");
+    const [category, setCateorgy] = useState("");
     const [inputs, setInputs] = useState([
         {
             question: "",
@@ -20,6 +20,7 @@ const SetQuestions = () => {
             correctAnswer: "",
         },
     ]);
+    const [title, setTitle] = useState("");
 
     const { loading, success, error, message } = useSelector(
         (state) => state.question
@@ -64,7 +65,7 @@ const SetQuestions = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createQuestionSet({ title, questions: inputs }));
+        dispatch(createQuestionSet({ category, title, questions: inputs }));
     };
 
     useEffect(() => {
@@ -89,12 +90,45 @@ const SetQuestions = () => {
                 >
                     <div className="flex flex-col gap-2">
                         <label htmlFor="title" className="shad-form_label">
-                            Title
+                            Category
+                        </label>
+                        <select
+                            name="category"
+                            value={category}
+                            onChange={(e) => setCateorgy(e.target.value)}
+                            className={`shad-input ${
+                                category === ""
+                                    ? "text-light-3"
+                                    : "text-light-2"
+                            }`}
+                        >
+                            <option value="" className="text-light-3">
+                                Select category
+                            </option>
+                            {[
+                                "General knowledge",
+                                "Aptitude",
+                                "Reasoning",
+                                "Technical",
+                            ].map((category, index) => (
+                                <option
+                                    key={index}
+                                    value={category}
+                                    className="text-light-2"
+                                >
+                                    {category}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="title" className="shad-form_label">
+                            Set title
                         </label>
                         <input
                             type="text"
-                            placeholder="Question set title"
                             className="shad-input"
+                            placeholder="Type set title here"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />

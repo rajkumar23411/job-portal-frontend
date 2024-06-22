@@ -29,7 +29,7 @@ const QuestionSetView = () => {
     return (
         <div className="h-max w-full">
             <div className="h4-medium w-full flex justify-between">
-                <h1>Question set / {questionSet.title}</h1>
+                <h1>Question set / {questionSet?.title}</h1>
                 <h1>Total questions: {questionSet?.questions?.length}</h1>
             </div>
             <ul className="list-inside flex flex-col gap-8 pt-8">

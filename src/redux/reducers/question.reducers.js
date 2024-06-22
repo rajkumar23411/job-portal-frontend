@@ -2,6 +2,9 @@ import {
     CREATE_QUESTION_SET_FAIL,
     CREATE_QUESTION_SET_REQUEST,
     CREATE_QUESTION_SET_SUCCESS,
+    DELETE_QUESTION_SET_FAIL,
+    DELETE_QUESTION_SET_REQUEST,
+    DELETE_QUESTION_SET_SUCCESS,
     GET_QUESTION_SETS_FAIL,
     GET_QUESTION_SETS_REQUEST,
     GET_QUESTION_SETS_SUCCESS,
@@ -17,11 +20,13 @@ export const questionReducer = (state = {}, action) => {
         case CREATE_QUESTION_SET_REQUEST:
         case GET_QUESTION_SETS_REQUEST:
         case LOAD_QUESTION_SET_DETAILS_REQUEST:
+        case DELETE_QUESTION_SET_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
         case CREATE_QUESTION_SET_SUCCESS:
+        case DELETE_QUESTION_SET_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -45,6 +50,7 @@ export const questionReducer = (state = {}, action) => {
         case CREATE_QUESTION_SET_FAIL:
         case GET_QUESTION_SETS_FAIL:
         case LOAD_QUESTION_SET_DETAILS_FAIL:
+        case DELETE_QUESTION_SET_FAIL:
             return {
                 ...state,
                 loading: false,

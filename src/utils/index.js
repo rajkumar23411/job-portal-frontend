@@ -3,6 +3,8 @@ export const comapnyBaseURL = "http://localhost:6767/api/v1/company";
 export const jobBaseURL = "http://localhost:6767/api/v1/job";
 export const applicationBaseURL = "http://localhost:6767/api/v1/application";
 export const questionBaseURL = "http://localhost:6767/api/v1/question";
+export const examBaseURL = "http://localhost:6767/api/v1/exam";
+
 export const config = {
     headers: {
         "Access-Control-Allow-Origin": "*",
@@ -351,3 +353,31 @@ export const multiFormatDateString = (timestamp) => {
             return "Just now";
     }
 };
+
+export function getStatusColor(status) {
+    switch (status) {
+        case "applied" || "assigned":
+            return "text-blue-500";
+        case "shortlist" || "verified":
+            return "text-yellow-500";
+        case "reject" || "N/A":
+            return "text-red-500";
+        case "hire" || "appeared":
+            return "text-green-500";
+        default:
+            return "text-light-2";
+    }
+}
+
+export const introTexts = [
+    "Join JobShala: Your gateway to a world of career opportunities and exceptional talent.",
+    "Find your next great job or the perfect candidate with JobShala.",
+    "Explore thousands of job listings and connect with top employers on JobShala.",
+    "JobShala: Bridging the gap between job seekers and hiring organizations.",
+    "Elevate your career or build your dream team with JobShala's comprehensive platform.",
+    "Discover your next career move or recruit top talent effortlessly on JobShala.",
+    "JobShala: Where ambition meets opportunity and employers meet exceptional talent.",
+    "Unlock your potential with JobShala, your trusted job search and hiring partner.",
+    "Step into your future career or find the right fit for your company on JobShala.",
+    "JobShala: Connecting people to possibilities and businesses to the best candidates.",
+];

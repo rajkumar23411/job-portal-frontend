@@ -21,12 +21,18 @@ import Bookmarks from "./page/user/Bookmarks";
 import JobDetails from "./page/user/JobDetails";
 import MyApplications from "./page/user/MyApplications";
 import AllJobs from "./page/user/AllJobs";
-import Applications from "./page/company/Applications";
-import Exam from "./page/company/SetExam";
+import Exam from "./page/company/Exam";
 import SetExam from "./page/company/SetExam";
 import SetQuestions from "./page/company/SetQuestions";
 import Questions from "./page/company/Questions";
 import QuestionSetView from "./page/company/QuestionSetView";
+import JobApplications from "./page/company/JobApplications";
+import Applications from "./page/company/Applications";
+import AuthUser from "./page/exam/AuthUser";
+import ExamLayout from "./layouts/_exam/ExamLayout";
+import AppearExam from "./page/exam/AppearExam";
+import AppearExamSuccess from "./page/exam/AppearExamSuccess";
+import LeftExam from "./page/exam/LeftExam";
 
 function App() {
     return (
@@ -65,12 +71,14 @@ function App() {
                         element={<SingleJobDetails />}
                     />
                     <Route
-                        path="/company/applications/:id"
+                        path="/company/applications"
                         element={<Applications />}
                     />
+                    <Route
+                        path="/company/applications/:id"
+                        element={<JobApplications />}
+                    />
                     <Route path="/company/job/edit/:id" element={<EditJob />} />
-                    <Route path="/company/exam/set" element={<SetExam />} />
-                    <Route path="/company/exam-hub" element={<Exam />} />
                     <Route path="/company/questions" element={<Questions />} />
                     <Route
                         path="/company/questions/set/create"
@@ -80,7 +88,29 @@ function App() {
                         path="/company/questions/set/:id"
                         element={<QuestionSetView />}
                     />
+                    <Route path="/company/exam-hub" element={<Exam />} />
+                    <Route
+                        path="/company/exam/user/assign"
+                        element={<SetExam />}
+                    />
                 </Route>
+
+                {/* exam portal */}
+                <Route path="/exam/candidate/validate" element={<AuthUser />} />
+                <Route element={<ExamLayout />}>
+                    <Route
+                        path="/exam/candidate/appear"
+                        element={<AppearExam />}
+                    />
+                </Route>
+                <Route
+                    path="/exam/candidate/appear/success"
+                    element={<AppearExamSuccess />}
+                />
+                <Route
+                    path="/exam/candidate/appear/left"
+                    element={<LeftExam />}
+                />
             </Routes>
         </main>
     );

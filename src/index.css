@@ -253,7 +253,7 @@
         @apply h-12 w-full bg-dark-4 border-none pl-2 rounded-md placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
     }
     .shad_select-group {
-        @apply bg-dark-4 border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
+        @apply bg-dark-3 border-none focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3;
     }
     .shad_select-label {
         @apply text-white !important;
@@ -268,10 +268,10 @@
     }
 
     .shad-button_primary-outlined {
-        @apply bg-transparent border border-primary-500/80 hover:border-primary-600 text-primary-500 hover:text-primary-600 flex gap-2 w-max !important;
+        @apply bg-transparent border-2 border-primary-500/80 hover:border-primary-600 text-primary-500 hover:text-primary-600 flex-center h-12 w-max !important;
     }
     .shad-button_danger-outlined {
-        @apply bg-transparent border border-red-500/80 hover:border-red-600 text-red-500 hover:text-red-600 flex gap-2 h-12 !important;
+        @apply bg-transparent border-2 border-red-500/80 hover:border-red-600 text-red-500 hover:text-red-600 flex-center h-12 !important;
     }
     .shad-button_primary-disabled {
         @apply bg-primary-500/30 text-light-2 flex gap-2 w-max h-12 cursor-not-allowed !important;

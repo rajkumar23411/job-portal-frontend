@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { MdOutlineMail, MdOutlineNotStarted } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FiUsers } from "react-icons/fi";
 import { LuUserCheck } from "react-icons/lu";
 import { IoMdGlobe } from "react-icons/io";
@@ -42,7 +42,7 @@ import JobInfoBox from "@/components/shared/JobInfoBox";
 const JobDetails = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const {
         loading,
         job,
@@ -80,7 +80,7 @@ const JobDetails = () => {
             toast.error(jobError);
             dispatch({ type: RESET_JOB_STATE });
         }
-    }, [jobSuccess, jobError, jobMessage, dispatch]);
+    }, [jobSuccess, jobError, jobMessage, dispatch, navigate]);
 
     useEffect(() => {
         if (success) {

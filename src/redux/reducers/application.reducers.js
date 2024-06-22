@@ -1,4 +1,7 @@
 import {
+    GET_ALL_JOB_APPLICATIONS_FAIL,
+    GET_ALL_JOB_APPLICATIONS_REQUEST,
+    GET_ALL_JOB_APPLICATIONS_SUCCESS,
     GET_JOB_APPLICANTS_FAIL,
     GET_JOB_APPLICANTS_REQUEST,
     GET_JOB_APPLICANTS_SUCCESS,
@@ -17,11 +20,13 @@ export const applicationReducer = (state = {}, action) => {
         case GET_MY_APPLICATIONS_REQUEST:
         case GET_JOB_APPLICANTS_REQUEST:
         case UPDATE_APPLICATION_STATUS_REQUEST:
+        case GET_ALL_JOB_APPLICATIONS_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
         case GET_MY_APPLICATIONS_SUCCESS:
+        case GET_ALL_JOB_APPLICATIONS_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -45,6 +50,7 @@ export const applicationReducer = (state = {}, action) => {
         case GET_MY_APPLICATIONS_FAIL:
         case GET_JOB_APPLICANTS_FAIL:
         case UPDATE_APPLICATION_STATUS_FAIL:
+        case GET_ALL_JOB_APPLICATIONS_FAIL:
             return {
                 ...state,
                 loading: false,

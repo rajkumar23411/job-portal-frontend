@@ -40,9 +40,12 @@ const Home = () => {
                     </h1>
                     <p className="base-regular text-light-2">
                         As per your{" "}
-                        <span className="base-medium text-light-3 cursor-pointer">
+                        <Link
+                            to="/my/preferences"
+                            className="base-medium text-light-3 cursor-pointer"
+                        >
                             preferences
-                        </span>
+                        </Link>
                     </p>
                 </div>
                 <div className="flex-center gap-6">

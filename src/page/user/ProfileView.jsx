@@ -24,7 +24,7 @@ import {
 import Loader from "@/components/shared/Loader";
 import { BsDownload } from "react-icons/bs";
 import { multiFormatDateString } from "@/utils";
-import UserResume, { getResumeExtension } from "@/components/shared/UserResume";
+import { getResumeExtension } from "@/components/shared/UserResume";
 import { getResumeIcon } from "@/utils/getResumeIcon";
 function InfoBox({ icon, value }) {
     return (
@@ -106,7 +106,7 @@ const ProfileView = () => {
             toast.error(error);
             dispatch(clearError());
         }
-    }, [success, error, message, dispatch]);
+    }, [success, error, message, dispatch, navigate]);
 
     return (
         <div className="h-full w-full flex-center">
@@ -211,7 +211,7 @@ const ProfileView = () => {
                         <div className="flex flex-col gap-2">
                             {user?.resume?.url && (
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2 bg-dark-3 p-2 w-60 rounded-md">
+                                    <div className="flex items-center gap-2 bg-dark-3 p-2 w-72 rounded-md">
                                         <div className="flex items-center justify-between w-full">
                                             <div className="flex items-center gap-2">
                                                 {getResumeIcon(
@@ -220,8 +220,15 @@ const ProfileView = () => {
                                                             ?.orgFileName
                                                     )
                                                 )}
-                                                <div className="small-regular text-light-2">
-                                                    {user?.resume?.orgFileName}
+                                                <div className="small-regular text-gray-400">
+                                                    {user?.resume?.orgFileName
+                                                        .length > 22
+                                                        ? user?.resume?.orgFileName.slice(
+                                                              0,
+                                                              22
+                                                          ) + "..."
+                                                        : user?.resume
+                                                              ?.orgFileName}
                                                 </div>
                                             </div>
                                             <Link
