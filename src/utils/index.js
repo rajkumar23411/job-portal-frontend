@@ -1,9 +1,11 @@
-export const userBaseURL = "http://localhost:6767/api/v1/user";
-export const comapnyBaseURL = "http://localhost:6767/api/v1/company";
-export const jobBaseURL = "http://localhost:6767/api/v1/job";
-export const applicationBaseURL = "http://localhost:6767/api/v1/application";
-export const questionBaseURL = "http://localhost:6767/api/v1/question";
-export const examBaseURL = "http://localhost:6767/api/v1/exam";
+const apiBase = import.meta.env.VITE_BACKEND_BASE_URL;
+
+export const userBaseURL = `${apiBase}/user`;
+export const comapnyBaseURL = `${apiBase}/company`;
+export const jobBaseURL = `${apiBase}/job`;
+export const applicationBaseURL = `${apiBase}/application`;
+export const questionBaseURL = `${apiBase}/question`;
+export const examBaseURL = `${apiBase}/exam`;
 
 export const config = {
     headers: {
